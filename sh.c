@@ -6,7 +6,7 @@
 /*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 11:00:23 by rklein            #+#    #+#             */
-/*   Updated: 2020/08/21 16:37:51 by rklein           ###   ########.fr       */
+/*   Updated: 2020/08/24 13:16:56 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	ft_prompt(t_sh *sh, int prompt)
 		tputs(tgetstr("cl", NULL), 1, ft_putint);
 	tputs(tgetstr("im", NULL), 1, ft_putint);
 	if (!sh->in->q && !sh->in->p)
-		write(STDOUT_FILENO, "21sh$ ", 6);
+		write(STDOUT_FILENO, "21sh$ ", sh->in->prompt_size =  6);
 	else if (sh->in->q || sh->in->p)
-		write(STDOUT_FILENO, "> ", 2);
+		write(STDOUT_FILENO, "> ", sh->in->prompt_size = 2);
 }
 
 void	ft_sh(t_sh *sh)

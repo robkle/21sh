@@ -6,7 +6,7 @@
 /*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 12:35:43 by rklein            #+#    #+#             */
-/*   Updated: 2020/08/21 16:37:55 by rklein           ###   ########.fr       */
+/*   Updated: 2020/08/24 13:55:39 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@
 # define CTRL_LEFT 347
 # define CTRL_RIGHT 346
 
-# define HOME 188
-# define END 190
+# define HOME 190
+# define END 188
 
 # define DEL 295
 # define BS 127
@@ -48,12 +48,14 @@
 
 typedef struct	s_in
 {
-	char	*buffer;
-	int		index;
-	int		end;
-	char	*input;
-	_Bool	q;
-	_Bool	p;	
+	char		*buffer;
+	int			index;
+	int			end;
+	short int	line;
+	char		*input;
+	_Bool		q;
+	_Bool		p;
+	short int	prompt_size;
 }				t_in;
 
 
