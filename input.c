@@ -6,7 +6,7 @@
 /*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 10:24:31 by rklein            #+#    #+#             */
-/*   Updated: 2020/08/24 13:55:37 by rklein           ###   ########.fr       */
+/*   Updated: 2020/08/25 17:09:27 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,36 @@ static void		ft_arrow_motion(t_sh *sh, int motion)
 	}
 }
 
+static void		ft_word_motion(t_sh *sh, int motion)
+{
+	int	i;
+
+	i = 0;
+	while (sh->in->buffer[i] == ' ')
+		i++;
+	if (motion == CTRL_LEFT)
+	{
+		if (sh->in->index > i && sh->in->buffer[sh->in->index] != ' ' &&
+				sh->in->buffer[sh->in->index - 1] == ' ')
+			ft_arrow_motion(sh, LEFT);
+		while (sh->in->index > i && !(sh->in->buffer[sh->in->index] != ' ' &&
+				sh->in->buffer[sh->in->index - 1] == ' '))
+			ft_arrow_motion(sh, LEFT);
+	}
+	if (motion == CTRL_RIGHT)
+	{
+		if (sh->in->index < sh->in->end && sh->in->buffer[sh->in->index] != ' '
+				&& sh->in->buffer[sh->in->index - 1] == ' ')
+			ft_arrow_motion(sh, RIGHT);
+		while (sh->in->index < sh->in->end && !(sh->in->buffer[sh->in->index] != ' ' &&
+				sh->in->buffer[sh->in->index - 1] == ' '))
+			ft_arrow_motion(sh, RIGHT);
+	}
+}
+
 void	ft_input(t_sh *sh)
 {
-	char	key[5];
+	char	key[9];
 	int		bytes;
 	int		i;
 	int		sum;
@@ -49,12 +76,12 @@ void	ft_input(t_sh *sh)
 	while (1)
 	{
 		//sh->in->line = (sh->in->end + sh->in->prompt_size) / sh->ws.ws_col;
-		bytes = read(STDIN_FILENO, key, 4);
+		bytes = read(STDIN_FILENO, key, 8);
 		key[bytes] = '\0';
 		i = -1;
 		sum = 0;
 		while (key[++i])
-			sum = sum + key[i];
+			sum += key[i];
 		if (key[0] == 3/*(0x1f & ('c'))*/)
 			exit(1);
 		/*
@@ -103,7 +130,6 @@ void	ft_input(t_sh *sh)
 			write(1, "\b", 1);
 			tputs(tgetstr("dc", NULL), 1, ft_putint);//delete character
 		}
-		
 		/*
 		** DELETE
 		*/	
@@ -120,11 +146,22 @@ void	ft_input(t_sh *sh)
 			}
 			tputs(tgetstr("dc", NULL), 1, ft_putint);//delete character
 		}
+		/*
+		** LEFT and RIGHT
+		*/
 		if (sum == LEFT || sum == RIGHT)
 			ft_arrow_motion(sh, sum);
-		/*if (sum == CTRL_UP)
+		/*
+		** CTRL_LEFT and CTRL_RIGHT
+		*/
+		if (sum == CTRL_LEFT || sum == CTRL_RIGHT)
+			ft_word_motion(sh, sum);
+		/*
+		** CTRL_UP and CTRL_DOWN
+		*/
+		if (sum == CTRL_UP)
 		{
-			if (sh->in->index - sh->ws.ws_col)
+			if (sh->in->index - sh->ws.ws_col > 0)
 			{
 				tputs(tgetstr("up", NULL), 1, ft_putint);
 				sh->in->index = sh->in->index - sh->ws.ws_col;
@@ -134,14 +171,17 @@ void	ft_input(t_sh *sh)
 		}
 		if (sum == CTRL_DOWN)
 		{
-			if (sh->in->index + sh->in->prompt_size + sh->ws.ws_col <= sh->in->end)
+			if (sh->in->index + sh->ws.ws_col < sh->in->end)
 			{
 				tputs(tgetstr("do", NULL), 1, ft_putint);
 				sh->in->index = sh->in->index + sh->ws.ws_col;
 			}
 			else
 				sum = END;
-		}*/
+		}
+		/*
+		** HOME and END
+		*/
 		if (sum == HOME)
 		{
 			while (sh->in->index > 0)
