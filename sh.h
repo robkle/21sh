@@ -6,7 +6,7 @@
 /*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 12:35:43 by rklein            #+#    #+#             */
-/*   Updated: 2020/08/25 17:09:28 by rklein           ###   ########.fr       */
+/*   Updated: 2020/08/26 16:11:08 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct	s_sh
 void	ft_validate_term(void);
 void	ft_rawmode(t_sh *sh);
 void	ft_sh(t_sh *sh);
+void	ft_prompt(t_sh *sh, int prompt);
 void	ft_input(t_sh *sh);
 void	ft_resetmode(t_sh *sh);
 int		ft_putint(int c); //TEMP

@@ -6,14 +6,14 @@
 /*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 11:00:23 by rklein            #+#    #+#             */
-/*   Updated: 2020/08/24 13:16:56 by rklein           ###   ########.fr       */
+/*   Updated: 2020/08/26 16:11:09 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 #include <stdio.h> //DEL
 
-static void	ft_prompt(t_sh *sh, int prompt)
+void	ft_prompt(t_sh *sh, int prompt)
 {
 	if (prompt == 0)
 		tputs(tgetstr("cl", NULL), 1, ft_putint);

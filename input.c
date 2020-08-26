@@ -6,7 +6,7 @@
 /*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 10:24:31 by rklein            #+#    #+#             */
-/*   Updated: 2020/08/25 17:09:27 by rklein           ###   ########.fr       */
+/*   Updated: 2020/08/26 16:10:59 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,21 @@ static void		ft_word_motion(t_sh *sh, int motion)
 	}
 }
 
+static void		ft_reprint(t_sh *sh, int line)
+{
+	int	i;
+
+	while (line--)
+		tputs(tgetstr("up", NULL), 1, ft_putint);
+	tputs(tgetstr("cr", NULL), 1, ft_putint);
+	tputs(tgetstr("cd", NULL), 1, ft_putint);
+	ft_prompt(sh, 1);
+	ft_putstr_fd(sh->in->buffer, STDOUT_FILENO);
+	i = sh->in->end - sh->in->index;
+	while (i--)
+			tputs(tgetstr("le", NULL), 1, ft_putint);
+}
+
 void	ft_input(t_sh *sh)
 {
 	char	key[9];
@@ -97,7 +112,7 @@ void	ft_input(t_sh *sh)
 		/*
 		** PRINT
 		*/
-		if (key[1] == '\0' && (!iscntrl(sum) || isspace(sum)))
+		if (ft_isprint(sum))
 		{
 			if (sh->in->index == sh->in->end)
 				sh->in->buffer[sh->in->index] = key[0];
@@ -108,7 +123,15 @@ void	ft_input(t_sh *sh)
 				ft_strlen(sh->in->buffer + sh->in->index));
 				sh->in->buffer[sh->in->index] = key[0];
 			}
-			write(1, &key[0], 1);
+			if (sh->in->index < sh->in->end && 
+					((sh->in->index + sh->in->prompt_size) / sh->ws.ws_col !=  
+					(sh->in->end + sh->in->prompt_size) / sh->ws.ws_col ||
+					sh->in->end + sh->in->prompt_size == sh->ws.ws_col))
+			{
+				ft_reprint(sh, sh->in->index + sh->in->prompt_size / sh->ws.ws_col);
+			}
+			else
+				write(1, &key[0], 1);
 			sh->in->index++;
 			sh->in->end++;
 		}
@@ -127,8 +150,13 @@ void	ft_input(t_sh *sh)
 				sh->in->buffer + sh->in->index + 1, \
 				ft_strlen(sh->in->buffer + sh->in->index));
 			}
-			write(1, "\b", 1);
-			tputs(tgetstr("dc", NULL), 1, ft_putint);//delete character
+			if (sh->in->end + 1 + sh->in->prompt_size < sh->ws.ws_col)
+			{
+				write(1, "\b", 1);
+				tputs(tgetstr("dc", NULL), 1, ft_putint);//delete character
+			}
+			else
+				ft_reprint(sh, sh->in->index + 1 + sh->in->prompt_size / sh->ws.ws_col);
 		}
 		/*
 		** DELETE
