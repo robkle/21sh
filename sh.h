@@ -72,8 +72,24 @@ void	ft_validate_term(void);
 void	ft_rawmode(t_sh *sh);
 void	ft_sh(t_sh *sh);
 void	ft_prompt(t_sh *sh, int prompt);
-void	ft_input(t_sh *sh);
+void	ft_readkey(t_sh *sh);
 void	ft_resetmode(t_sh *sh);
-int		ft_putint(int c); //TEMP
+int	ft_putint(int c);
+/*
+** line edit: input
+*/
+void	ft_add_char(t_sh *sh, int c);
+void	ft_del_char(t_sh *sh);
+void	ft_backspace(t_sh *sh);
+void	ft_reprint(t_sh *sh, int line);
+/*
+** line edit: motion
+*/
+void	ft_arrow_motion(t_sh *sh, int motion);
+void	ft_word_motion(t_sh *sh, int motion);
+void	ft_he_motion(t_sh *sh, int motion);
+void	ft_line_motion(t_sh *sh, int motion);		
+
+
 
 #endif

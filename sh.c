@@ -35,6 +35,6 @@ void	ft_sh(t_sh *sh)
 		sh->in->index = 0;
 		sh->in->end = 0;
 		ft_prompt(sh, prompt++);
-		ft_input(sh);
+		ft_readkey(sh);
 	}
 }

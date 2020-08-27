@@ -1,0 +1,45 @@
+#include "sh.h"
+
+void	ft_readkey(t_sh *sh)
+{
+	char	key[9];
+	int		bytes;
+	int		i;
+	int		sum;
+
+	while (1)
+	{
+		bytes = read(STDIN_FILENO, key, 8);
+		key[bytes] = '\0';
+		i = -1;
+		sum = 0;
+		while (key[++i])
+			sum += key[i];
+		if (key[0] == 3/*(0x1f & ('c'))*/)
+			exit(1);
+		/*
+		** ENTER
+		*/
+		if (key[0] == CR)
+		{
+			write(STDOUT_FILENO, "\n>>", 3);
+			ft_putstr(sh->in->buffer);
+			write(STDOUT_FILENO, "\n\r", 2);
+			break;
+		}
+		if (ft_isprint(sum))
+			ft_add_char(sh, sum);
+		if (sum == BS && sh->in->index > 0)
+			ft_backspace(sh);
+		if (sum == DEL && sh->in->index < sh->in->end)
+			ft_del_char(sh);
+		if (sum == LEFT || sum == RIGHT)
+			ft_arrow_motion(sh, sum);
+		if (sum == CTRL_LEFT || sum == CTRL_RIGHT)
+			ft_word_motion(sh, sum);
+		if (sum == CTRL_UP || sum == CTRL_DOWN)
+			ft_line_motion(sh, sum);
+		if (sum == HOME || sum == END)
+			ft_he_motion(sh, sum);
+	}
+}
