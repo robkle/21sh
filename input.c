@@ -6,7 +6,7 @@
 /*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 10:24:31 by rklein            #+#    #+#             */
-/*   Updated: 2020/08/26 16:10:59 by rklein           ###   ########.fr       */
+/*   Updated: 2020/08/28 15:46:40 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		ft_del_char(t_sh *sh)
 		sh->in->buffer + sh->in->index + 1, \
 		ft_strlen(sh->in->buffer + sh->in->index));
 	}
-	if (sh->in->end + 1 + sh->in->prompt_size < sh->ws.ws_col)
+	if (sh->in->end + sh->in->prompt_size < sh->ws.ws_col)
 		tputs(tgetstr("dc", NULL), 1, ft_putint);
 	else
 		ft_reprint(sh, (sh->in->index + sh->in->prompt_size) / sh->ws.ws_col);
@@ -82,9 +82,14 @@ void		ft_backspace(t_sh *sh)
 	}
 	if (sh->in->end + 1 + sh->in->prompt_size < sh->ws.ws_col)
 	{
-		write(1, "\b", 1);
+		tputs(tgetstr("le", NULL), 1, ft_putint);
 		tputs(tgetstr("dc", NULL), 1, ft_putint);
 	}
-	else
-		ft_reprint(sh, (sh->in->index + 1 + sh->in->prompt_size) / sh->ws.ws_col);
+	else // buffer string and index correct, but a glitch with cursor postion when going up one line
+	{
+		if (sh->in->index == sh->in->end)
+			ft_reprint(sh, (sh->in->index + sh->in->prompt_size) / sh->ws.ws_col);
+		else
+			ft_reprint(sh, (sh->in->index + 1 + sh->in->prompt_size) / sh->ws.ws_col);
+	}
 }
