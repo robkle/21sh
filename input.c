@@ -81,15 +81,19 @@ void		ft_backspace(t_sh *sh)
 		ft_strlen(sh->in->buffer + sh->in->index));
 	}
 	if (sh->in->end + 1 + sh->in->prompt_size < sh->ws.ws_col)
-	{
+	{	
 		tputs(tgetstr("le", NULL), 1, ft_putint);
 		tputs(tgetstr("dc", NULL), 1, ft_putint);
 	}
-	else // buffer string and index correct, but a glitch with cursor postion when going up one line
+	else // else statement below fixes the glitch. Figure out why and fix
 	{
 		if (sh->in->index == sh->in->end)
 			ft_reprint(sh, (sh->in->index + sh->in->prompt_size) / sh->ws.ws_col);
 		else
+		{
 			ft_reprint(sh, (sh->in->index + 1 + sh->in->prompt_size) / sh->ws.ws_col);
+			if ((sh->in->end + sh->in->prompt_size) % sh->ws.ws_col == 0)
+				tputs(tgetstr("nd", NULL), 1, ft_putint);
+		}
 	}
 }
