@@ -24,7 +24,7 @@ void	ft_reprint(t_sh *sh, int line)
 	ft_putstr_fd(sh->in->buffer, STDOUT_FILENO);
 	i = sh->in->end - sh->in->index;
 	while (i--)
-			tputs(tgetstr("le", NULL), 1, ft_putint);
+		tputs(tgetstr("le", NULL), 1, ft_putint);
 }
 
 void		ft_add_char(t_sh *sh, int c)
@@ -41,7 +41,7 @@ void		ft_add_char(t_sh *sh, int c)
 	if (sh->in->index < sh->in->end && 
 			((sh->in->index + sh->in->prompt_size) / sh->ws.ws_col !=  
 			(sh->in->end + sh->in->prompt_size) / sh->ws.ws_col ||
-			sh->in->end + sh->in->prompt_size == sh->ws.ws_col))
+			(sh->in->end + sh->in->prompt_size) % sh->ws.ws_col == 0))
 	{
 		ft_reprint(sh, (sh->in->index + sh->in->prompt_size) / sh->ws.ws_col);
 	}
@@ -85,7 +85,7 @@ void		ft_backspace(t_sh *sh)
 		tputs(tgetstr("le", NULL), 1, ft_putint);
 		tputs(tgetstr("dc", NULL), 1, ft_putint);
 	}
-	else // else statement below fixes the glitch. Figure out why and fix
+	else
 	{
 		if (sh->in->index == sh->in->end)
 			ft_reprint(sh, (sh->in->index + sh->in->prompt_size) / sh->ws.ws_col);
@@ -93,7 +93,7 @@ void		ft_backspace(t_sh *sh)
 		{
 			ft_reprint(sh, (sh->in->index + 1 + sh->in->prompt_size) / sh->ws.ws_col);
 			if ((sh->in->end + sh->in->prompt_size) % sh->ws.ws_col == 0)
-				tputs(tgetstr("nd", NULL), 1, ft_putint);
+				tputs(tgetstr("nd", NULL), 1, ft_putint); //when the end point is on the last column in insert mode, the cursor does not move right
 		}
 	}
 }
