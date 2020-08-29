@@ -14,14 +14,14 @@ void	ft_arrow_motion(t_sh *sh, int motion)
 	{
 		if (sh->in->index < sh->in->end)
 		{
+			sh->in->index++;
 			if ((sh->in->index + sh->in->prompt_size) % sh->ws.ws_col == 0)
 			{
-				tputs(tgetstr("do", NULL), 1, ft_putint);
 				tputs(tgetstr("cr", NULL), 1, ft_putint);	
+				tputs(tgetstr("do", NULL), 1, ft_putint);
 			}
 			else
 				tputs(tgetstr("nd", NULL), 1, ft_putint);
-			sh->in->index++;
 		}
 	}
 }
