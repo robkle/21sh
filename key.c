@@ -31,7 +31,7 @@ void	ft_readkey(t_sh *sh)
 			ft_add_char(sh, sum);
 		if (sum == BS && sh->in->index > 0)
 			ft_backspace(sh);
-		if (sum == DEL && sh->in->index < sh->in->end)
+		if (key[0] == (0x1f & ('x')) && sh->in->index < sh->in->end)
 			ft_del_char(sh);
 		if (sum == LEFT || sum == RIGHT)
 			ft_arrow_motion(sh, sum);

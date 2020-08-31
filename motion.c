@@ -2,13 +2,29 @@
 
 void	ft_arrow_motion(t_sh *sh, int motion)
 {
-	if (motion == LEFT)
+	if (motion == LEFT && sh->in->index > 0)
 	{
-		if (sh->in->index > 0)
+		sh->in->index--;
+		if (sh->in->end + 1 + sh->in->prompt_size < sh->ws.ws_col)
+		{	
+			tputs(tgetstr("le", NULL), 1, ft_putint);
+		}
+		else
+		{
+			if (sh->in->index == sh->in->end)
+				ft_reprint(sh, (sh->in->index + sh->in->prompt_size) / sh->ws.ws_col);
+			else
+			{
+				ft_reprint(sh, (sh->in->index + 1 + sh->in->prompt_size) / sh->ws.ws_col);
+				if ((sh->in->end + sh->in->prompt_size) % sh->ws.ws_col == 0)
+					tputs(tgetstr("nd", NULL), 1, ft_putint); //when the end point is on the last column in insert mode, the cursor does not move right
+			}
+		}
+	/*	if (sh->in->index > 0)
 		{
 			tputs(tgetstr("le", NULL), 1, ft_putint);
 			sh->in->index--;
-		}
+		}*/
 	}
 	if (motion == RIGHT)
 	{

@@ -54,18 +54,17 @@ void		ft_add_char(t_sh *sh, int c)
 void		ft_del_char(t_sh *sh)
 {
 	sh->in->end--;
-	if (sh->in->index == sh->in->end)
-		sh->in->buffer[sh->in->index] = 0;
-	else
-	{
-		ft_memmove(sh->in->buffer + sh->in->index, \
-		sh->in->buffer + sh->in->index + 1, \
-		ft_strlen(sh->in->buffer + sh->in->index));
-	}
-	if (sh->in->end + sh->in->prompt_size < sh->ws.ws_col)
+	ft_memmove(sh->in->buffer + sh->in->index, \
+	sh->in->buffer + sh->in->index + 1, \
+	ft_strlen(sh->in->buffer + sh->in->index));
+	if (sh->in->end + 1 + sh->in->prompt_size < sh->ws.ws_col)
 		tputs(tgetstr("dc", NULL), 1, ft_putint);
 	else
+	{
 		ft_reprint(sh, (sh->in->index + sh->in->prompt_size) / sh->ws.ws_col);
+		if ((sh->in->end + sh->in->prompt_size) % sh->ws.ws_col == 0)
+			tputs(tgetstr("nd", NULL), 1, ft_putint); //when the end point is on the last column in insert mode, the cursor does not move right}
+	}
 }
 
 void		ft_backspace(t_sh *sh)
