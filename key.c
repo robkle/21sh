@@ -31,7 +31,7 @@ void	ft_readkey(t_sh *sh)
 			ft_add_char(sh, sum);
 		if (sum == BS && sh->in->index > 0)
 			ft_backspace(sh);
-		if (key[0] == (0x1f & ('x')) && sh->in->index < sh->in->end)
+		if (sum == DEL)
 			ft_del_char(sh);
 		if (sum == LEFT || sum == RIGHT)
 			ft_arrow_motion(sh, sum);
@@ -41,5 +41,6 @@ void	ft_readkey(t_sh *sh)
 			ft_line_motion(sh, sum);
 		if (sum == HOME || sum == END)
 			ft_he_motion(sh, sum);
+		ft_reprint(sh);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 12:35:43 by rklein            #+#    #+#             */
-/*   Updated: 2020/08/28 15:46:42 by rklein           ###   ########.fr       */
+/*   Updated: 2020/09/01 16:44:10 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ typedef struct	s_in
 {
 	char		*buffer;
 	int			index;
-	int			end;
-	short int	line;
+	int			line;
 	char		*input;
 	_Bool		q;
 	_Bool		p;
@@ -81,7 +80,6 @@ int	ft_putint(int c);
 void	ft_add_char(t_sh *sh, int c);
 void	ft_del_char(t_sh *sh);
 void	ft_backspace(t_sh *sh);
-void	ft_reprint(t_sh *sh, int line);
 /*
 ** line edit: motion
 */
@@ -89,6 +87,10 @@ void	ft_arrow_motion(t_sh *sh, int motion);
 void	ft_word_motion(t_sh *sh, int motion);
 void	ft_he_motion(t_sh *sh, int motion);
 void	ft_line_motion(t_sh *sh, int motion);		
+/*
+** line edit: reprint
+*/
+void	ft_reprint(t_sh *sh);
 
 
 

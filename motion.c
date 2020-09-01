@@ -3,43 +3,9 @@
 void	ft_arrow_motion(t_sh *sh, int motion)
 {
 	if (motion == LEFT && sh->in->index > 0)
-	{
 		sh->in->index--;
-		if (sh->in->end + 1 + sh->in->prompt_size < sh->ws.ws_col)
-		{	
-			tputs(tgetstr("le", NULL), 1, ft_putint);
-		}
-		else
-		{
-			if (sh->in->index == sh->in->end)
-				ft_reprint(sh, (sh->in->index + sh->in->prompt_size) / sh->ws.ws_col);
-			else
-			{
-				ft_reprint(sh, (sh->in->index + 1 + sh->in->prompt_size) / sh->ws.ws_col);
-				if ((sh->in->end + sh->in->prompt_size) % sh->ws.ws_col == 0)
-					tputs(tgetstr("nd", NULL), 1, ft_putint); //when the end point is on the last column in insert mode, the cursor does not move right
-			}
-		}
-	/*	if (sh->in->index > 0)
-		{
-			tputs(tgetstr("le", NULL), 1, ft_putint);
-			sh->in->index--;
-		}*/
-	}
-	if (motion == RIGHT)
-	{
-		if (sh->in->index < sh->in->end)
-		{
-			sh->in->index++;
-			if ((sh->in->index + sh->in->prompt_size) % sh->ws.ws_col == 0)
-			{
-				tputs(tgetstr("cr", NULL), 1, ft_putint);	
-				tputs(tgetstr("do", NULL), 1, ft_putint);
-			}
-			else
-				tputs(tgetstr("nd", NULL), 1, ft_putint);
-		}
-	}
+	if (motion == RIGHT && sh->in->index < ft_strlen(sh->in->buffer))
+		sh->in->index++;
 }
 
 void	ft_word_motion(t_sh *sh, int motion)
@@ -60,10 +26,12 @@ void	ft_word_motion(t_sh *sh, int motion)
 	}
 	if (motion == CTRL_RIGHT)
 	{
-		if (sh->in->index < sh->in->end && sh->in->buffer[sh->in->index] != ' '
-				&& sh->in->buffer[sh->in->index - 1] == ' ')
+		if (sh->in->index < ft_strlen(sh->in->buffer) &&
+				sh->in->buffer[sh->in->index] != ' ' && 
+				sh->in->buffer[sh->in->index - 1] == ' ')
 			ft_arrow_motion(sh, RIGHT);
-		while (sh->in->index < sh->in->end && !(sh->in->buffer[sh->in->index] != ' ' &&
+		while (sh->in->index < ft_strlen(sh->in->buffer) && 
+				!(sh->in->buffer[sh->in->index] != ' ' &&
 				sh->in->buffer[sh->in->index - 1] == ' '))
 			ft_arrow_motion(sh, RIGHT);
 	}
@@ -78,7 +46,7 @@ void	ft_he_motion(t_sh *sh, int motion)
 	}
 	if (motion == END)
 	{
-		while (sh->in->index < sh->in->end)
+		while (sh->in->index < ft_strlen(sh->in->buffer))
 			ft_arrow_motion(sh, RIGHT);
 	}
 }
@@ -88,20 +56,14 @@ void	ft_line_motion(t_sh *sh, int motion)
 	if (motion == CTRL_UP)
 	{
 		if (sh->in->index - sh->ws.ws_col > 0)
-		{
-			tputs(tgetstr("up", NULL), 1, ft_putint);
 			sh->in->index = sh->in->index - sh->ws.ws_col;
-		}
 		else
 			ft_he_motion(sh, HOME);
-		}
+	}
 	if (motion == CTRL_DOWN)
 	{
-		if (sh->in->index + sh->ws.ws_col < sh->in->end)
-		{
-			tputs(tgetstr("do", NULL), 1, ft_putint);
+		if (sh->in->index + sh->ws.ws_col < ft_strlen(sh->in->buffer) - 1)
 			sh->in->index = sh->in->index + sh->ws.ws_col;
-		}
 		else
 			ft_he_motion(sh, END);
 	}
