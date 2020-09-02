@@ -22,17 +22,39 @@ void	ft_prompt(t_sh *sh, int prompt)
 		write(STDOUT_FILENO, "> ", sh->in->prompt_size = 2);
 }
 
+static void	ft_init(t_sh *sh)
+{
+	sh->in->buffer = ft_memalloc(ARG_MAX);
+	sh->in->index = 0;
+	sh->in->line = 0;
+	sh->in->input = ft_memalloc(ARG_MAX);
+	sh->in->clipboard = ft_memalloc(ARG_MAX);
+	sh->in->cp_range[0] = -1;
+	sh->in->cp_range[1] = -1;
+	sh->in->hs = NULL;
+}
+
+static void	ft_reset_buffer(t_sh *sh)
+{
+	ft_bzero(sh->in->buffer, ARG_MAX);
+	sh->in->index = 0;
+	sh->in->line = 0;
+	sh->in->cp_range[0] = -1;
+	sh->in->cp_range[1] = -1;
+	if (!sh->in->q && !sh->in->p)
+		ft_bzero(sh->in->input, ARG_MAX);
+}
+
 void	ft_sh(t_sh *sh)
 {
 	int	prompt;
 
+	ft_init(sh);
 	prompt = 0;
 	while (1)
 	{
-		sh->in->buffer = ft_memalloc(ARG_MAX);
-		sh->in->index = 0;
-		sh->in->line = 0;
 		ft_prompt(sh, prompt++);
 		ft_readkey(sh);
+		ft_reset_buffer(sh);
 	}
 }

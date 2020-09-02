@@ -15,18 +15,19 @@ void	ft_readkey(t_sh *sh)
 		sum = 0;
 		while (key[++i])
 			sum += key[i];
-		if (key[0] == 3/*(0x1f & ('c'))*/)
+		if (sum == 3/*(0x1f & ('c'))*/)
 			exit(1);
 		/*
 		** ENTER
 		*/
-		if (key[0] == CR)
+		if (sum == CR)
 		{
 			write(STDOUT_FILENO, "\n>>", 3);
 			ft_putstr(sh->in->buffer);
 			write(STDOUT_FILENO, "\n\r", 2);
 			break;
 		}
+		//reset copy range if not a motion
 		if (ft_isprint(sum))
 			ft_add_char(sh, sum);
 		if (sum == BS && sh->in->index > 0)
@@ -41,6 +42,9 @@ void	ft_readkey(t_sh *sh)
 			ft_line_motion(sh, sum);
 		if (sum == HOME || sum == END)
 			ft_he_motion(sh, sum);
-		ft_reprint(sh);
+		if (sum == COPY)
+			ft_copy(sh);
+		if (sum == PASTE)
+			ft_paste(sh);
 	}
 }

@@ -46,6 +46,16 @@
 # define BS 127
 # define CR 13
 
+# define COPY 25
+# define PASTE 16
+
+typedef struct s_hs
+{
+	char		*hist;
+	struct s_hs	*next;
+	struct s_hs	*prev;
+}			t_hs;
+
 typedef struct	s_in
 {
 	char		*buffer;
@@ -55,6 +65,9 @@ typedef struct	s_in
 	_Bool		q;
 	_Bool		p;
 	short int	prompt_size;
+	char		*clipboard;
+	int		cp_range[2];
+	t_hs		*hs;		
 }				t_in;
 
 
@@ -91,6 +104,11 @@ void	ft_line_motion(t_sh *sh, int motion);
 ** line edit: reprint
 */
 void	ft_reprint(t_sh *sh);
+/*
+** line edit: copy
+*/
+void	ft_copy(t_sh *sh);
+void	ft_paste(t_sh *sh);
 
 
 

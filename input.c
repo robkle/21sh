@@ -20,6 +20,7 @@ void		ft_add_char(t_sh *sh, int c)
 		ft_strlen(sh->in->buffer + sh->in->index));
 	sh->in->buffer[sh->in->index] = c;
 	sh->in->index++;
+	ft_reprint(sh);
 }
 
 void		ft_del_char(t_sh *sh)
@@ -30,6 +31,7 @@ void		ft_del_char(t_sh *sh)
 		sh->in->buffer + sh->in->index + 1, \
 		ft_strlen(sh->in->buffer + sh->in->index));
 		sh->in->buffer[ft_strlen(sh->in->buffer)] = 0;
+		ft_reprint(sh);
 	}
 }
 
@@ -42,5 +44,6 @@ void		ft_backspace(t_sh *sh)
 		sh->in->buffer + sh->in->index + 1, \
 		ft_strlen(sh->in->buffer + sh->in->index));
 		sh->in->buffer[ft_strlen(sh->in->buffer)] = 0;
+		ft_reprint(sh);
 	}
 }

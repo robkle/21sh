@@ -6,6 +6,7 @@ void	ft_arrow_motion(t_sh *sh, int motion)
 		sh->in->index--;
 	if (motion == RIGHT && sh->in->index < ft_strlen(sh->in->buffer))
 		sh->in->index++;
+	ft_reprint(sh);
 }
 
 void	ft_word_motion(t_sh *sh, int motion)
@@ -56,14 +57,20 @@ void	ft_line_motion(t_sh *sh, int motion)
 	if (motion == CTRL_UP)
 	{
 		if (sh->in->index - sh->ws.ws_col > 0)
+		{
 			sh->in->index = sh->in->index - sh->ws.ws_col;
+			ft_reprint(sh);
+		}
 		else
 			ft_he_motion(sh, HOME);
 	}
 	if (motion == CTRL_DOWN)
 	{
 		if (sh->in->index + sh->ws.ws_col < ft_strlen(sh->in->buffer) - 1)
+		{
 			sh->in->index = sh->in->index + sh->ws.ws_col;
+			ft_reprint(sh);
+		}
 		else
 			ft_he_motion(sh, END);
 	}
