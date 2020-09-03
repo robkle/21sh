@@ -22,9 +22,8 @@ void	ft_readkey(t_sh *sh)
 		*/
 		if (sum == CR)
 		{
-			write(STDOUT_FILENO, "\n>>", 3);
-			ft_putstr(sh->in->buffer);
-			write(STDOUT_FILENO, "\n\r", 2);
+			write(STDOUT_FILENO, "\n\r", 2); //TEMP for testing
+			ft_strcat(sh->in->input, sh->in->buffer);
 			break;
 		}
 		//reset copy range if not a motion
@@ -42,6 +41,8 @@ void	ft_readkey(t_sh *sh)
 			ft_line_motion(sh, sum);
 		if (sum == HOME || sum == END)
 			ft_he_motion(sh, sum);
+		if (sum == UP || sum == DOWN)
+			ft_history_scroll(sh, sum);
 		if (sum == COPY)
 			ft_copy(sh);
 		if (sum == PASTE)

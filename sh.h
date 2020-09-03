@@ -49,6 +49,10 @@
 # define COPY 25
 # define PASTE 16
 
+# define SQUOTE 39
+# define DQUOTE 34
+# define PIPE 124
+
 typedef struct s_hs
 {
 	char		*hist;
@@ -62,12 +66,15 @@ typedef struct	s_in
 	int			index;
 	int			line;
 	char		*input;
-	_Bool		q;
-	_Bool		p;
+	short int		qp;
+	char		*prompt;
 	short int	prompt_size;
 	char		*clipboard;
 	int		cp_range[2];
-	t_hs		*hs;		
+	t_hs		*hs;
+	t_hs		*hs_begin;
+	t_hs		*hs_last;
+	_Bool		hss;
 }				t_in;
 
 
@@ -109,7 +116,10 @@ void	ft_reprint(t_sh *sh);
 */
 void	ft_copy(t_sh *sh);
 void	ft_paste(t_sh *sh);
-
-
+/*
+** line edit: history
+*/
+void	ft_history_add(t_sh *sh);
+void	ft_history_scroll(t_sh *sh, int motion);
 
 #endif
