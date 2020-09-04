@@ -12,33 +12,6 @@
 
 #include "sh.h"
 
-static void	ft_check_qp(t_sh *sh)
-{
-	int	i;
-
-	i = -1;
-	while (sh->in->buffer[++i])
-	{
-		if (sh->in->buffer[i] == 39) 
-		{
-			if (!(sh->in->qp % 4))
-				sh->in->qp += 1;
-			else if (sh->in->qp % 4 == 1)
-				sh->in->qp -= 1;
-		}
-		if (sh->in->buffer[i] == 34) 
-		{
-			if (!(sh->in->qp % 4))
-				sh->in->qp += 2;
-			else if (sh->in->qp % 4 == 2)
-				sh->in->qp -= 2;
-		}
-		if (sh->in->buffer[i] == 124)
-			sh->in->qp = !sh->in->qp ?  4 : 0;
-		if (sh->in->buffer[i] != 124 && sh->in->qp == 4)	
-			sh->in->qp -= 4;
-	}
-}
 
 static void	ft_cursor(t_sh *sh, int len)
 {
@@ -81,6 +54,5 @@ void	ft_reprint(t_sh *sh)
 	ft_putstr_fd(sh->in->buffer, STDOUT_FILENO);
 	ft_cursor(sh, len);
 	sh->in->line = (sh->in->index + sh->in->prompt_size) / sh->ws.ws_col;
-	ft_check_qp(sh);
 }
 
