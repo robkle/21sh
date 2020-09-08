@@ -39,6 +39,12 @@ static void	ft_init(t_sh *sh)
 	sh->in->cp_range[1] = -1;
 	sh->in->hs = NULL;
 	sh->in->qp = 0;
+	sh->in->hs = (t_hs*)malloc(sizeof(t_hs));
+	sh->in->hs->hist = ft_strnew(0);;
+	sh->in->hs->prev = sh->in->hs;
+	sh->in->hs->next = sh->in->hs;
+	sh->in->hs_begin = sh->in->hs;
+	sh->in->hs_last = sh->in->hs;
 }
 
 static void	ft_reset_buffer(t_sh *sh)
@@ -65,11 +71,21 @@ void	ft_sh(t_sh *sh)
 		{
 			//Prepare input string
 			//Send to command handling function
-			write(STDOUT_FILENO, "\n\r>>", 4); //TEMP for testing
-			ft_putstr(sh->in->input); //TEMP for testing
-			write(STDOUT_FILENO, "\n\r", 2); //TEMP for testing
-			ft_history_add(sh); //after quotes are handles change so that final sh->in->input goes to history
+			if (*(sh->in->input))
+			{
+				tputs(tgetstr("cr", NULL), 1, ft_putint);
+				tputs(tgetstr("do", NULL), 1, ft_putint);
+				ft_putstr(sh->in->input); //TEMP for testing
+				ft_history_add(sh);
+			}
+			tputs(tgetstr("cr", NULL), 1, ft_putint);
+			tputs(tgetstr("do", NULL), 1, ft_putint);
 			ft_bzero(sh->in->input, ft_strlen(sh->in->input));
+		}
+		else
+		{
+			tputs(tgetstr("cr", NULL), 1, ft_putint);
+			tputs(tgetstr("do", NULL), 1, ft_putint);
 		}
 	}
 }
