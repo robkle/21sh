@@ -6,7 +6,7 @@
 /*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 11:00:23 by rklein            #+#    #+#             */
-/*   Updated: 2020/09/01 16:44:18 by rklein           ###   ########.fr       */
+/*   Updated: 2020/09/08 12:57:44 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_prompt(t_sh *sh, int prompt)
 		ft_strcpy(sh->in->prompt, "> ");
 	}
 	sh->in->prompt_size = ft_strlen(sh->in->prompt);
-	ft_putstr_fd(sh->in->prompt, STDOUT_FILENO);
+	//ft_putstr_fd(sh->in->prompt, STDOUT_FILENO);
 }
 
 static void	ft_init(t_sh *sh)
@@ -65,6 +65,7 @@ void	ft_sh(t_sh *sh)
 	while (1)
 	{
 		ft_prompt(sh, prompt++);
+		ft_reprint(sh);
 		ft_readkey(sh);
 		ft_reset_buffer(sh);
 		if (!sh->in->qp)
