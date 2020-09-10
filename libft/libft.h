@@ -6,7 +6,7 @@
 /*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 09:06:41 by rklein            #+#    #+#             */
-/*   Updated: 2020/08/21 12:42:58 by rklein           ###   ########.fr       */
+/*   Updated: 2020/09/10 11:51:04 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int				ft_isalpha(int c);
 int				ft_isascii(int c);
 int				ft_isdigit(int c);
 int				ft_isprint(int c);
+int				ft_isspace(int c);
 char			*ft_itoa(int n);
 void			*ft_memalloc(size_t size);
 void			*ft_memccpy(void *dst, const void *src, int c, size_t n);

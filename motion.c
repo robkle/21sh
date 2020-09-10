@@ -14,26 +14,37 @@ void	ft_word_motion(t_sh *sh, int motion)
 	int	i;
 
 	i = 0;
-	while (sh->in->buffer[i] == ' ')
+//	while (sh->in->buffer[i] == ' ')
+	while (ft_isspace(sh->in->buffer[i])) //NEW
 		i++;
 	if (motion == CTRL_LEFT)
 	{
-		if (sh->in->index > i && sh->in->buffer[sh->in->index] != ' ' &&
-				sh->in->buffer[sh->in->index - 1] == ' ')
+//		if (sh->in->index > i && sh->in->buffer[sh->in->index] != ' ' &&
+//				sh->in->buffer[sh->in->index - 1] == ' ')
+		if (sh->in->index > i && !ft_isspace(sh->in->buffer[sh->in->index]) && //NEW
+				ft_isspace(sh->in->buffer[sh->in->index - 1])) //NEW
 			ft_arrow_motion(sh, LEFT);
-		while (sh->in->index > i && !(sh->in->buffer[sh->in->index] != ' ' &&
-				sh->in->buffer[sh->in->index - 1] == ' '))
+//		while (sh->in->index > i && !(sh->in->buffer[sh->in->index] != ' ' &&
+//				sh->in->buffer[sh->in->index - 1] == ' '))
+		while (sh->in->index > i && !(!ft_isspace(sh->in->buffer[sh->in->index]) && //NEW
+					ft_isspace(sh->in->buffer[sh->in->index - 1]))) //NEW
 			ft_arrow_motion(sh, LEFT);
 	}
 	if (motion == CTRL_RIGHT)
 	{
-		if (sh->in->index < ft_strlen(sh->in->buffer) &&
-				sh->in->buffer[sh->in->index] != ' ' && 
-				sh->in->buffer[sh->in->index - 1] == ' ')
+//		if (sh->in->index < ft_strlen(sh->in->buffer) &&
+//				sh->in->buffer[sh->in->index] != ' ' && 
+//				sh->in->buffer[sh->in->index - 1] == ' ')
+		if (sh->in->index < ft_strlen(sh->in->buffer) && //NEW
+				!ft_isspace(sh->in->buffer[sh->in->index]) && //NEW
+				ft_isspace(sh->in->buffer[sh->in->index - 1])) //NEW
 			ft_arrow_motion(sh, RIGHT);
-		while (sh->in->index < ft_strlen(sh->in->buffer) && 
-				!(sh->in->buffer[sh->in->index] != ' ' &&
-				sh->in->buffer[sh->in->index - 1] == ' '))
+//		while (sh->in->index < ft_strlen(sh->in->buffer) && 
+//				!(sh->in->buffer[sh->in->index] != ' ' &&
+//				sh->in->buffer[sh->in->index - 1] == ' '))
+		while (sh->in->index < ft_strlen(sh->in->buffer) && //NEW
+				!(!ft_isspace(sh->in->buffer[sh->in->index]) && //NEW
+					ft_isspace(sh->in->buffer[sh->in->index - 1]))) //NEW
 			ft_arrow_motion(sh, RIGHT);
 	}
 }

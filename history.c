@@ -23,6 +23,7 @@ void	ft_history_scroll(t_sh *sh, int motion)
 {
 	int	i;
 
+	ft_he_motion(sh, HOME);
 	ft_bzero(sh->in->buffer, ft_strlen(sh->in->buffer));
 	sh->in->index = 0;
 	sh->in->line = 0;
@@ -37,8 +38,8 @@ void	ft_history_scroll(t_sh *sh, int motion)
 		ft_reprint(sh);
 	else
 	{
-		i = -1;
-		while (sh->in->hs->hist[++i])
-			ft_add_char(sh, sh->in->hs->hist[i]);
+		ft_strcpy(sh->in->buffer, sh->in->hs->hist);
+		ft_reprint(sh);
+		ft_he_motion(sh, END);
 	}
 }

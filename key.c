@@ -78,6 +78,7 @@ void	ft_readkey(t_sh *sh)
 		}
 		if (sum == CR)
 		{
+			ft_he_motion(sh, END);
 			ft_check_qp(sh);
 			if (sh->in->qp)
 				sh->in->buffer[ft_strlen(sh->in->buffer)] = '\n';
