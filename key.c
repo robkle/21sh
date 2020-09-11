@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   key.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/11 15:04:40 by rklein            #+#    #+#             */
+/*   Updated: 2020/09/11 15:19:21 by rklein           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sh.h"
 
 static void	ft_check_qp(t_sh *sh)
@@ -53,6 +65,34 @@ static void	ft_key_action(t_sh *sh, int sum)
 		ft_paste(sh);
 }
 
+static _Bool ft_readsum(t_sh *sh, int sum)
+{
+	if (sum == 3/*^C*/)
+	{
+		sh->in->qp = 0;
+		ft_bzero(sh->in->input, ft_strlen(sh->in->input));
+		return (1);
+	}
+	if (sum == 4/*^D*/)
+	{
+		if (!sh->in->buffer[0] && !sh->in->input[0])
+			exit(1);
+		else
+			sum = DEL;
+	}
+	if (sum == CR)
+	{
+		ft_he_motion(sh, END);
+		ft_check_qp(sh);
+		if (sh->in->qp)
+			sh->in->buffer[ft_strlen(sh->in->buffer)] = '\n';
+		ft_strcat(sh->in->input, sh->in->buffer);
+		return (1);
+	}
+	ft_key_action(sh, sum);
+	return (0);
+}
+
 void	ft_readkey(t_sh *sh)
 {
 	char	key[9];
@@ -62,29 +102,14 @@ void	ft_readkey(t_sh *sh)
 
 	while (1)
 	{
+		ioctl(STDIN_FILENO, TIOCGWINSZ, &sh->ws);//not sure if this is the best way
 		bytes = read(STDIN_FILENO, key, 8);
 		key[bytes] = '\0';
 		i = -1;
 		sum = 0;
 		while (key[++i])
 			sum += key[i];
-		if (sum == 27)
-			exit(1);
-		if (sum == 3/*(0x1f & ('c'))*/)
-		{
-			sh->in->qp = 0;
-			ft_bzero(sh->in->input, ft_strlen(sh->in->input));
+		if (ft_readsum(sh, sum))
 			break;
-		}
-		if (sum == CR)
-		{
-			ft_he_motion(sh, END);
-			ft_check_qp(sh);
-			if (sh->in->qp)
-				sh->in->buffer[ft_strlen(sh->in->buffer)] = '\n';
-			ft_strcat(sh->in->input, sh->in->buffer);
-			break;
-		}
-		ft_key_action(sh, sum);
 	}
 }

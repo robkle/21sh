@@ -77,7 +77,7 @@ void	ft_line_motion(t_sh *sh, int motion)
 	}
 	if (motion == CTRL_DOWN)
 	{
-		if (sh->in->index + sh->ws.ws_col < ft_strlen(sh->in->buffer) - 1)
+		if (sh->in->index + sh->ws.ws_col < ft_strlen(sh->in->buffer))
 		{
 			sh->in->index = sh->in->index + sh->ws.ws_col;
 			ft_reprint(sh);
