@@ -66,7 +66,8 @@ typedef struct	s_in
 	int			index;
 	int			line;
 	char		*input;
-	short int		qp;
+	short int		qph;
+	char		*hdoc;
 	char		*prompt;
 	short int	prompt_size;
 	char		*clipboard;
@@ -94,6 +95,7 @@ void	ft_prompt(t_sh *sh, int prompt);
 void	ft_readkey(t_sh *sh);
 void	ft_resetmode(t_sh *sh);
 int	ft_putint(int c);
+void	ft_check_qph(t_sh *sh);
 /*
 ** line edit: input
 */

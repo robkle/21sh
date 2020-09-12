@@ -16,7 +16,7 @@ void	ft_prompt(t_sh *sh, int prompt)
 {
 	if (prompt == 0)
 		tputs(tgetstr("cl", NULL), 1, ft_putint);
-	if (!sh->in->qp)
+	if (!sh->in->qph)
 		ft_strcpy(sh->in->prompt, "21sh$ ");
 	else
 	{
@@ -38,7 +38,8 @@ static void	ft_init(t_sh *sh)
 	sh->in->cp_range[0] = -1;
 	sh->in->cp_range[1] = -1;
 	sh->in->hs = NULL;
-	sh->in->qp = 0;
+	sh->in->qph = 0;
+	sh->in->hdoc = ft_memalloc(256);
 	sh->in->hs = (t_hs*)malloc(sizeof(t_hs));
 	sh->in->hs->hist = ft_strnew(0);;
 	sh->in->hs->prev = sh->in->hs;
@@ -68,7 +69,7 @@ void	ft_sh(t_sh *sh)
 		ft_reprint(sh);
 		ft_readkey(sh);
 		ft_reset_buffer(sh);
-		if (!sh->in->qp)
+		if (!sh->in->qph)
 		{
 			//Prepare input string
 			//Send to command handling function
