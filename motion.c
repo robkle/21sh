@@ -73,7 +73,13 @@ void	ft_line_motion(t_sh *sh, int motion)
 			ft_reprint(sh);
 		}
 		else
-			ft_he_motion(sh, HOME);
+		{
+			if (sh->in->buffer[sh->in->index] == '\n')
+				ft_arrow_motion(sh, LEFT);
+			while (sh->in->index > 0 && sh->in->buffer[sh->in->index] != '\n')
+				ft_arrow_motion(sh, LEFT);
+		}
+			//ft_he_motion(sh, HOME);
 	}
 	if (motion == CTRL_DOWN)
 	{
@@ -83,6 +89,13 @@ void	ft_line_motion(t_sh *sh, int motion)
 			ft_reprint(sh);
 		}
 		else
-			ft_he_motion(sh, END);
+		{
+			if (sh->in->buffer[sh->in->index] == '\n')
+				ft_arrow_motion(sh, RIGHT);
+			while (sh->in->index < ft_strlen(sh->in->buffer) && sh->in->buffer[sh->in->index] != '\n')
+				ft_arrow_motion(sh, RIGHT);
+
+		}
+	//		ft_he_motion(sh, END);
 	}
 }

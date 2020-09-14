@@ -65,9 +65,11 @@ void	ft_sh(t_sh *sh)
 	prompt = 0;
 	while (1)
 	{
+		ft_rawmode(sh); //NEW moved from main
 		ft_prompt(sh, prompt++);
 		ft_reprint(sh);
 		ft_readkey(sh);
+		ft_resetmode(sh); //NEW moved from main
 		ft_reset_buffer(sh);
 		if (!sh->in->qph)
 		{

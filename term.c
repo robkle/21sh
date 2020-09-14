@@ -40,7 +40,7 @@ void	ft_resetmode(t_sh *sh)
 
 void	ft_rawmode(t_sh	*sh)
 {
-	tcgetattr(STDIN_FILENO, &sh->orig);
+//	tcgetattr(STDIN_FILENO, &sh->orig);
 	sh->raw = sh->orig;
 	ioctl(STDIN_FILENO, TIOCGWINSZ, &sh->ws);//retrieves terminal window size
 	sh->raw.c_iflag &= ~(ICRNL | IXON);//ICRNL: Ctrl-M; IXON: Ctrl-S and Ctrl-X

@@ -20,8 +20,7 @@ int	main()
 	sh = (t_sh*)malloc(sizeof(t_sh));
 	sh->in = (t_in*)malloc(sizeof(t_in));
 	ft_validate_term();
-	ft_rawmode(sh);
+	tcgetattr(STDIN_FILENO, &sh->orig);
 	ft_sh(sh);
-	ft_resetmode(sh);
 	return (0);	
 }

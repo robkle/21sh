@@ -48,7 +48,10 @@ static _Bool ft_readsum(t_sh *sh, int sum)
 	if (sum == 4/*^D*/)
 	{
 		if (!sh->in->buffer[0] && !sh->in->input[0])
+		{
+			ft_resetmode(sh); //NEW moved from main
 			exit(1);
+		}
 		else
 			sum = DEL;
 	}
