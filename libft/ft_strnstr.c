@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rklein <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vgrankul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/17 15:57:43 by rklein            #+#    #+#             */
-/*   Updated: 2019/10/29 17:12:16 by rklein           ###   ########.fr       */
+/*   Created: 2019/10/23 14:27:26 by vgrankul          #+#    #+#             */
+/*   Updated: 2019/11/08 12:09:02 by vgrankul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	size_t	i;
-	size_t	j;
+	int i;
+	int j;
+	int l;
 
 	i = 0;
+	j = 0;
+	l = (int)len;
 	if (needle[i] == '\0')
-		return ((char*)haystack);
-	while (haystack[i] && i < len)
+		return ((char*)&haystack[i]);
+	while (haystack[i] != '\0' && i < l)
 	{
 		j = 0;
-		while (haystack[i + j] == needle[j] && haystack[i + j] && i + j < len)
+		while (haystack[i + j] == needle[j] && j + i < l && needle[j] != '\0'
+				&& haystack[i + j] != '\0')
 		{
-			if (needle[j + 1] == '\0')
-				return ((char*)&haystack[i]);
 			j++;
+			if (needle[j] == '\0')
+				return ((char*)&haystack[i]);
 		}
 		i++;
 	}

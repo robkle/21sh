@@ -1,10 +1,10 @@
-# include "sh.h"
+# include "./includes/sh.h"
 
 void	ft_arrow_motion(t_sh *sh, int motion)
 {
 	if (motion == LEFT && sh->in->index > 0)
 		sh->in->index--;
-	if (motion == RIGHT && sh->in->index < ft_strlen(sh->in->buffer))
+	if (motion == RIGHT && sh->in->index < (int)ft_strlen(sh->in->buffer))
 		sh->in->index++;
 	ft_reprint(sh);
 }
@@ -35,14 +35,14 @@ void	ft_word_motion(t_sh *sh, int motion)
 //		if (sh->in->index < ft_strlen(sh->in->buffer) &&
 //				sh->in->buffer[sh->in->index] != ' ' && 
 //				sh->in->buffer[sh->in->index - 1] == ' ')
-		if (sh->in->index < ft_strlen(sh->in->buffer) && //NEW
+		if (sh->in->index < (int)ft_strlen(sh->in->buffer) && //NEW
 				!ft_isspace(sh->in->buffer[sh->in->index]) && //NEW
 				ft_isspace(sh->in->buffer[sh->in->index - 1])) //NEW
 			ft_arrow_motion(sh, RIGHT);
 //		while (sh->in->index < ft_strlen(sh->in->buffer) && 
 //				!(sh->in->buffer[sh->in->index] != ' ' &&
 //				sh->in->buffer[sh->in->index - 1] == ' '))
-		while (sh->in->index < ft_strlen(sh->in->buffer) && //NEW
+		while (sh->in->index < (int)ft_strlen(sh->in->buffer) && //NEW
 				!(!ft_isspace(sh->in->buffer[sh->in->index]) && //NEW
 					ft_isspace(sh->in->buffer[sh->in->index - 1]))) //NEW
 			ft_arrow_motion(sh, RIGHT);
@@ -58,7 +58,7 @@ void	ft_he_motion(t_sh *sh, int motion)
 	}
 	if (motion == END)
 	{
-		while (sh->in->index < ft_strlen(sh->in->buffer))
+		while (sh->in->index < (int)ft_strlen(sh->in->buffer))
 			ft_arrow_motion(sh, RIGHT);
 	}
 }
@@ -83,7 +83,7 @@ void	ft_line_motion(t_sh *sh, int motion)
 	}
 	if (motion == CTRL_DOWN)
 	{
-		if (sh->in->index + sh->ws.ws_col < ft_strlen(sh->in->buffer))
+		if (sh->in->index + sh->ws.ws_col < (int)ft_strlen(sh->in->buffer))
 		{
 			sh->in->index = sh->in->index + sh->ws.ws_col;
 			ft_reprint(sh);
@@ -92,7 +92,7 @@ void	ft_line_motion(t_sh *sh, int motion)
 		{
 			if (sh->in->buffer[sh->in->index] == '\n')
 				ft_arrow_motion(sh, RIGHT);
-			while (sh->in->index < ft_strlen(sh->in->buffer) && sh->in->buffer[sh->in->index] != '\n')
+			while (sh->in->index < (int)ft_strlen(sh->in->buffer) && sh->in->buffer[sh->in->index] != '\n')
 				ft_arrow_motion(sh, RIGHT);
 
 		}

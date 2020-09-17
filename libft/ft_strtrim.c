@@ -3,40 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rklein <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vgrankul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/22 14:18:12 by rklein            #+#    #+#             */
-/*   Updated: 2019/10/30 16:20:18 by rklein           ###   ########.fr       */
+/*   Created: 2019/10/30 13:23:55 by vgrankul          #+#    #+#             */
+/*   Updated: 2019/11/05 14:33:34 by vgrankul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-char	*ft_strtrim(char const *s)
+static	int		is_whitespace(char c)
 {
-	char	*tst;
+	return (c == ' ' || c == '\n' || c == '\t');
+}
+
+char			*ft_strtrim(char const *s)
+{
 	int		i;
 	int		j;
 	int		k;
+	char	*str;
 
+	i = 0;
+	k = 0;
 	if (!s)
 		return (NULL);
-	i = 0;
-	while (s[i] && (s[i] == ' ' || s[i] == '\n' || s[i] == '\t'))
+	while (is_whitespace(s[i]) && s[i] != '\0')
 		i++;
-	j = 0;
-	while (s[j])
-		j++;
-	j--;
-	while (j >= i && (s[j] == ' ' || s[j] == '\n' || s[j] == '\t'))
+	j = ft_strlen((char*)s);
+	while (i < j && is_whitespace(s[j - 1]))
 		j--;
-	k = j - i + 1;
-	tst = (char*)malloc(sizeof(*tst) * k + 1);
-	if (!tst)
+	if (j == i)
+		return (ft_strnew(1));
+	if (!(str = (char*)malloc(sizeof(char) * (j - i) + 1)))
 		return (NULL);
-	j = 0;
-	while (j < k)
-		tst[j++] = s[i++];
-	tst[j] = '\0';
-	return (tst);
+	while (i < j)
+		str[k++] = (char)s[i++];
+	str[k] = '\0';
+	return (str);
 }

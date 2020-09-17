@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   key.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: vgrankul <vgrankul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 15:04:40 by rklein            #+#    #+#             */
-/*   Updated: 2020/09/11 15:19:21 by rklein           ###   ########.fr       */
+/*   Updated: 2020/09/16 15:16:25 by vgrankul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
+#include "./includes/sh.h"
 
 
 static void	ft_key_action(t_sh *sh, int sum)

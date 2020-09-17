@@ -3,23 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rklein <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vgrankul <vgrankul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/21 09:10:23 by rklein            #+#    #+#             */
-/*   Updated: 2019/10/30 17:53:23 by rklein           ###   ########.fr       */
+/*   Created: 2019/10/15 14:42:03 by vgrankul          #+#    #+#             */
+/*   Updated: 2020/02/07 10:34:48 by vgrankul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
-void	ft_putstr(char const *s)
+void	ft_putstr(char *str)
 {
-	if (s)
-	{
-		while (*s)
-		{
-			write(1, &*s, 1);
-			s++;
-		}
-	}
+	write(1, str, ft_strlen(str));
 }

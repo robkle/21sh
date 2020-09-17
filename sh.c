@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   sh.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: vgrankul <vgrankul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 11:00:23 by rklein            #+#    #+#             */
-/*   Updated: 2020/09/11 15:19:20 by rklein           ###   ########.fr       */
+/*   Updated: 2020/09/16 15:31:26 by vgrankul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
+#include "./includes/sh.h"
+#include "./includes/minishell.h"
 
 void	ft_prompt(t_sh *sh, int prompt)
 {
@@ -29,12 +30,13 @@ void	ft_prompt(t_sh *sh, int prompt)
 
 static void	ft_init(t_sh *sh)
 {
+	//change back 4096 to ARG_MAX
 	sh->in->prompt= ft_memalloc(7);
-	sh->in->buffer = ft_memalloc(ARG_MAX);
+	sh->in->buffer = ft_memalloc(4096);
 	sh->in->index = 0;
 	sh->in->line = 0;
-	sh->in->input = ft_memalloc(ARG_MAX);
-	sh->in->clipboard = ft_memalloc(ARG_MAX);
+	sh->in->input = ft_memalloc(4096);
+	sh->in->clipboard = ft_memalloc(4096);
 	sh->in->cp_range[0] = -1;
 	sh->in->cp_range[1] = -1;
 	sh->in->hs = NULL;
@@ -50,19 +52,22 @@ static void	ft_init(t_sh *sh)
 
 static void	ft_reset_buffer(t_sh *sh)
 {
-	ft_bzero(sh->in->buffer, ARG_MAX);
+	ft_bzero(sh->in->buffer, 4096);
 	sh->in->index = 0;
 	sh->in->line = 0;
 	sh->in->cp_range[0] = -1;
 	sh->in->cp_range[1] = -1;
 }
 
-void	ft_sh(t_sh *sh)
+int		ft_sh(t_sh *sh, char **env) 
 {
-	int	prompt;
+	int			prompt;
+	t_command	**commands;
+	int			status;
 
 	ft_init(sh);
 	prompt = 0;
+	status = 0;
 	while (1)
 	{
 		ft_rawmode(sh); //NEW moved from main
@@ -77,13 +82,15 @@ void	ft_sh(t_sh *sh)
 			//Send to command handling function
 			if (*(sh->in->input))
 			{
+				sh->in->input[ft_strlen(sh->in->input)] = '\n';
 				tputs(tgetstr("cr", NULL), 1, ft_putint);
 				tputs(tgetstr("do", NULL), 1, ft_putint);
-				ft_putstr(sh->in->input); //TEMP for testing
+				//ft_putstr(sh->in->input); //TEMP for testing
+				commands = create_command_list(sh->in->input, env);
+				if (commands != NULL)
+					status = handle_command_list(commands, &env);
 				ft_history_add(sh);
 			}
-			tputs(tgetstr("cr", NULL), 1, ft_putint);
-			tputs(tgetstr("do", NULL), 1, ft_putint);
 			ft_bzero(sh->in->input, ft_strlen(sh->in->input));
 		}
 		else
@@ -92,4 +99,5 @@ void	ft_sh(t_sh *sh)
 			tputs(tgetstr("do", NULL), 1, ft_putint);
 		}
 	}
+	return (status);
 }

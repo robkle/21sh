@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: vgrankul <vgrankul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 10:24:31 by rklein            #+#    #+#             */
-/*   Updated: 2020/09/15 13:31:42 by rklein           ###   ########.fr       */
+/*   Updated: 2020/09/16 15:16:33 by vgrankul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
+#include "./includes/sh.h"
 
 void		ft_add_char(t_sh *sh, int c)
 {

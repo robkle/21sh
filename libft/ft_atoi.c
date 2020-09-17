@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: vgrankul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/17 16:33:58 by rklein            #+#    #+#             */
-/*   Updated: 2020/08/21 12:23:20 by rklein           ###   ########.fr       */
+/*   Created: 2019/10/21 13:49:19 by vgrankul          #+#    #+#             */
+/*   Updated: 2019/11/05 14:31:57 by vgrankul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,26 @@
 
 int	ft_atoi(const char *str)
 {
-	int	neg;
-	int	res;
+	int res;
+	int i;
+	int negative;
 
-	neg = 1;
+	i = 0;
 	res = 0;
-	while (*str == '\t' || *str == '\n' || *str == '\v' || *str == '\f' ||
-			*str == '\r' || *str == ' ')
-		str++;
-	if (*str == '-')
-		neg = -1;
-	if (*str == '+' || *str == '-')
-		str++;
-	while (*str >= '0' && *str <= '9')
+	negative = 1;
+	while (str[i] == '\v' || str[i] == '\r' || str[i] == '\f' ||
+			str[i] == '\n' || str[i] == ' ' || str[i] == '\t')
+		i++;
+	if (str[i] == '+' || str[i] == '-')
 	{
-		res = 10 * res + (*str - 48);
-		str++;
+		if (str[i] == '-')
+			negative = -1;
+		i++;
 	}
-	return (neg * res);
+	while (str[i] && str[i] <= 57 && str[i] >= 48)
+	{
+		res = res * 10 + str[i] - '0';
+		i++;
+	}
+	return (res * negative);
 }

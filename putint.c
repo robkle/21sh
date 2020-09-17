@@ -1,6 +1,6 @@
 //temporary until part of libft
 
-#include "sh.h"
+#include "./includes/sh.h"
 
 int	ft_putint(int c)
 {

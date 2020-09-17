@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   ft_memmo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: vgrankul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/19 17:13:20 by rklein            #+#    #+#             */
-/*   Updated: 2020/08/21 15:30:44 by rklein           ###   ########.fr       */
+/*   Created: 2019/10/23 17:05:52 by vgrankul          #+#    #+#             */
+/*   Updated: 2019/11/07 16:17:19 by vgrankul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,26 @@
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	unsigned char	*d;
-	unsigned char	*s;
-	size_t			i;
+	char *s1;
+	char *s2;
 
-	d = (unsigned char*)dst;
-	s = (unsigned char*)src;
-	i = 0;
-	if (d < s)
-		ft_memcpy(dst, src, len);
-	else
+	s1 = (char*)dst;
+	s2 = (char*)src;
+	if ((s1 && s2) || s1 || s2)
 	{
-		while (len > 0)
+		if (s1 > s2)
 		{
-			d[len - 1] = s[len - 1];
+			while (len)
+			{
+				s1[len - 1] = s2[len - 1];
+				len--;
+			}
+		}
+		while (len)
+		{
+			*s1 = *s2;
+			s1++;
+			s2++;
 			len--;
 		}
 	}

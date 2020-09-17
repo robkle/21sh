@@ -1,1 +1,0 @@
-gcc -ltermcap main.c term.c sh.c key.c motion.c input.c copy.c history.c reprint.c putint.c qph_check.c libft/libft.a && ./a.out

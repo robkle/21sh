@@ -3,60 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: vgrankul <vgrankul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/21 10:24:21 by rklein            #+#    #+#             */
-/*   Updated: 2020/08/21 12:36:26 by rklein           ###   ########.fr       */
+/*   Created: 2019/10/30 12:52:28 by vgrankul          #+#    #+#             */
+/*   Updated: 2020/02/19 13:50:38 by vgrankul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_intl(int n)
+char			*ft_itoa(long long n)
 {
-	int	len;
+	char		*str;
+	int			len;
+	long long	nb;
 
-	len = 0;
-	if (n == 0)
-		return (1);
-	if (n < 0)
-	{
-		n = n * -1;
-		len++;
-	}
-	while (n > 0)
-	{
-		n = n / 10;
-		len++;
-	}
-	return (len);
-}
-
-char	*ft_itoa(int n)
-{
-	int		i;
-	char	*str;
-
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	i = ft_intl(n);
-	str = (char*)malloc(sizeof(*str) * i + 1);
-	if (!str)
+	nb = n;
+	len = ft_count_digits(n, 10);
+	if (!(str = (char*)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
-	str[i] = '\0';
-	i--;
-	if (n < 0)
+	str[len--] = '\0';
+	if (nb == 0)
+		str[len--] = '0';
+	if (nb < 0)
 	{
 		str[0] = '-';
-		n = n * -1;
+		nb = nb * -1;
 	}
-	if (n == 0)
-		str[i] = '0';
-	while (n > 0)
+	while (nb > 0)
 	{
-		str[i] = (n % 10 + '0');
-		n = n / 10;
-		i--;
+		str[len--] = (nb % 10) + '0';
+		nb = nb / 10;
 	}
 	return (str);
 }

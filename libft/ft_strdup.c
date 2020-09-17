@@ -3,34 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rklein <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: vgrankul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/16 10:26:24 by rklein            #+#    #+#             */
-/*   Updated: 2019/10/30 14:17:54 by rklein           ###   ########.fr       */
+/*   Created: 2019/10/16 10:18:21 by vgrankul          #+#    #+#             */
+/*   Updated: 2019/11/06 16:37:13 by vgrankul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
 
-char	*ft_strdup(const char *src)
+static char		*ft_mystrcpy(char *dest, const char *src)
 {
-	char	*dup;
-	int		i;
-	int		j;
+	int i;
 
 	i = 0;
-	while (src[i])
-		i++;
-	dup = (char *)malloc(sizeof(*dup) * i + 1);
-	if (dup == 0)
-		return (NULL);
-	j = 0;
-	while (j < i)
+	while (src[i] != '\0')
 	{
-		dup[j] = src[j];
-		j++;
+		dest[i] = src[i];
+		i++;
 	}
-	dup[j] = '\0';
-	return (dup);
+	dest[i] = '\0';
+	return (dest);
+}
+
+char			*ft_strdup(const char *src)
+{
+	char *arr;
+
+	arr = (char*)malloc(sizeof(char) * ft_strlen(src) + 1);
+	if (arr)
+	{
+		ft_mystrcpy(arr, src);
+	}
+	else
+	{
+		return (NULL);
+	}
+	return (arr);
 }
