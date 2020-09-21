@@ -6,7 +6,7 @@
 /*   By: vgrankul <vgrankul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 11:00:23 by rklein            #+#    #+#             */
-/*   Updated: 2020/09/16 15:31:26 by vgrankul         ###   ########.fr       */
+/*   Updated: 2020/09/21 13:42:07 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ static void	ft_reset_buffer(t_sh *sh)
 	sh->in->cp_range[1] = -1;
 }
 
+static void	ft_sig_kill(int signum)
+{
+	if (signum)
+		ioctl(STDIN_FILENO, TIOCSTI, "");
+}
+
 int		ft_sh(t_sh *sh, char **env) 
 {
 	int			prompt;
@@ -71,28 +77,23 @@ int		ft_sh(t_sh *sh, char **env)
 	status = 0;
 	while (1)
 	{
-		ft_rawmode(sh); //NEW moved from main
+		ft_rawmode(sh);
+		signal(SIGINT, ft_sig_kill);//SIGNAL HANDLING QUICK FIX
 		ft_prompt(sh, prompt++);
 		ft_reprint(sh);
 		ft_readkey(sh);
-		ft_resetmode(sh); //NEW moved from main
+		ft_resetmode(sh);
 		ft_reset_buffer(sh);
-		if (!sh->in->qph)
+		if (!sh->in->qph && *(sh->in->input))
 		{
-			//Prepare input string
-			//Send to command handling function
-			if (*(sh->in->input))
-			{
-				sh->in->input[ft_strlen(sh->in->input)] = '\n';
-				tputs(tgetstr("cr", NULL), 1, ft_putint);
-				tputs(tgetstr("do", NULL), 1, ft_putint);
-				//ft_putstr(sh->in->input); //TEMP for testing
-				tokens = create_tokens(sh->in->input);
-				commands = create_command_list(&tokens, env);
-				if (commands != NULL)
-					status = handle_command_list(commands, &env);
-				ft_history_add(sh);
-			}
+			sh->in->input[ft_strlen(sh->in->input)] = '\n';
+			tputs(tgetstr("cr", NULL), 1, ft_putint);
+			tputs(tgetstr("do", NULL), 1, ft_putint);
+			tokens = create_tokens(sh->in->input);
+			commands = create_command_list(&tokens, env);
+			if (commands != NULL)
+			status = handle_command_list(commands, &env);
+			ft_history_add(sh);
 			ft_bzero(sh->in->input, ft_strlen(sh->in->input));
 		}
 		else

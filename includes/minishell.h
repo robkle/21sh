@@ -27,6 +27,7 @@
 
 # define SQ				1
 # define DQ				2
+# define ESC			4
 
 # define PIPE_OP		1
 # define OR_OP			2
@@ -111,6 +112,8 @@ int				is_separator(int c);
 int				create_redir(t_token **head, char *command);
 int				create_word(t_token **head, char *command);
 int				set_redirections(t_command *command);
+int				get_quote_index(char *token, int flags);
+int				count_squoting_word(char *command, int *flags);
 
 char			**word_splitting(char *command, int count);
 
@@ -120,7 +123,7 @@ char			**add_env(const char *name, const char *value, char **env,
 				int count);
 
 char			*tilde_expansion(char *word, char **env);
-char			*parameter_expansion(char *word, char **env);
+char			*parameter_expansion(t_token *token, char *word, char **env);
 char			*get_env_value(char *name, char **env);
 char			*check_env(t_env **env, char *name);
 char			*set_value(char *argv);
@@ -140,6 +143,10 @@ void			destroy_tok_list(t_token *head);
 void			add_token(t_token **head, int tok_type, char *tok, int flags);
 void			reset_redirections(int fd[3]);
 void			set_fd(int fd[3]);
+void			remove_quoting(t_token **head);
+void			remove_squotes(t_token **tokens, int sindex);
+void			remove_dquotes(t_token **tokens, int sindex);
+void			remove_esc(t_token **tokens);
 
 t_command		**create_command_list(t_token **tokens, char **env);
 
