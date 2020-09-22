@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <dirent.h>
 # include <sys/wait.h>
+# include <signal.h>
 # include "../libft/libft.h"
 
 # define BUF_SIZE		32
@@ -36,6 +37,13 @@
 # define AND_OP 		16
 # define SEMI			32
 # define NEWLINE		64
+
+# define FD_ERR		"21sh: bad filedescriptor"
+# define FILE_ERR	"21sh: failed to open file"
+# define SYNTAX_ERR	"21sh: syntax error"
+# define DUP2_FAIL	"21sh: dup2 failed"
+# define CLOSE_ERR	"21sh: close failed"
+# define PIPE_ERR	"21sh: pipe failed"
 
 enum			redir_type
 {
@@ -85,6 +93,7 @@ typedef struct	s_command
 	int			argc;
 	int			ctrl_op;
 	int			fd[3];
+	int			fork;
 }				t_command;
 
 int				str_chr(char *str, int c);
@@ -96,8 +105,7 @@ int				ft_echo(char **argv);
 int				is_builtin(t_command *command);
 int				run_builtin(t_command *command, t_command **commands,
 				char ***env, int status);
-int				exec_command(t_command *command, t_command **commands,
-				pid_t pid, char ***env);
+int				exec_command(t_command *command, t_command **commands, pid_t pid, char ***env);
 int				find_env(const char *name, char **env);
 int				ft_env(t_command *command, t_command **commands, char **env);
 int				ft_exit(t_command *command, t_command **commands, char ***env,
