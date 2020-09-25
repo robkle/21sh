@@ -38,14 +38,15 @@
 # define SEMI			32
 # define NEWLINE		64
 
-# define FD_ERR		"21sh: bad filedescriptor"
-# define FILE_ERR	"21sh: failed to open file"
-# define SYNTAX_ERR	"21sh: syntax error"
-# define DUP2_FAIL	"21sh: dup2 failed"
-# define CLOSE_ERR	"21sh: close failed"
-# define PIPE_ERR	"21sh: pipe failed"
+# define FD_ERR			"21sh: bad filedescriptor"
+# define FILE_ERR		"21sh: failed to open file"
+# define SYNTAX_ERR		"21sh: syntax error"
+# define DUP2_FAIL		"21sh: dup2 failed"
+# define CLOSE_ERR		"21sh: close failed"
+# define PIPE_ERR		"21sh: pipe failed"
+# define REDIR_ERR		"21sh: redirections failed"
 
-enum			redir_type
+enum			e_redir_type
 {
 	L,
 	LL,
@@ -105,7 +106,8 @@ int				ft_echo(char **argv);
 int				is_builtin(t_command *command);
 int				run_builtin(t_command *command, t_command **commands,
 				char ***env, int status);
-int				exec_command(t_command *command, t_command **commands, pid_t pid, char ***env);
+int				exec_command(t_command *command, t_command **commands,
+				pid_t pid, char ***env);
 int				find_env(const char *name, char **env);
 int				ft_env(t_command *command, t_command **commands, char **env);
 int				ft_exit(t_command *command, t_command **commands, char ***env,
@@ -122,6 +124,7 @@ int				create_word(t_token **head, char *command);
 int				set_redirections(t_command *command);
 int				get_quote_index(char *token, int flags);
 int				count_squoting_word(char *command, int *flags);
+int				count_dquoting_word(char *command, int *flags);
 int				is_redir_in(int r_type);
 int				is_redir_out(int r_type);
 int				dup2_fd(int n, int fd, int dash, int r_type);
@@ -131,6 +134,9 @@ int				print_redir_error(char *str);
 int				get_redir(char *token);
 int				is_digits(t_token *tmp, int *dash);
 int				file_aggr(t_token *tmp, int fd, int *dash);
+int				count_words(t_token *tokens);
+int				count_ctrl_op(t_token *tokens);
+int				is_word(int c);
 
 char			**word_splitting(char *command, int count);
 
@@ -167,11 +173,13 @@ void			remove_esc(t_token **tokens);
 void			set_fd(int fd[3]);
 void			set_redir_list(char redir[11][4]);
 void			reset_redirections(int fd[3]);
+void			get_index(char *token, int *ctrl_op);
 
 t_command		**create_command_list(t_token **tokens, char **env);
 
 t_token			*create_tokens(char *command);
+t_token			*create_token(int tok_type, char *tok, int flags);
 
-void		print_token(t_token *head); // ta bort
+void			print_token(t_token *head); // ta bort
 
 #endif

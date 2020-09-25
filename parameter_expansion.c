@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/minishell.h"
+#include "./includes/21sh.h"
 
 char	*get_name(char *param)
 {
@@ -37,18 +37,15 @@ int		get_param(char *word, char **param)
 	int		i;
 
 	i = 1;
-	if (word[i] == '{')
+	/*if (word[i] == '{')
 	{
 		while (word[i] != '}')
 			i++;
 		i++;
-	}
-	else
-	{
-		while (word[i] != '$' && word[i] != '"' && word[i] != '\'' &&
-		word[i] != '\0' && word[i] != '}' && word[i] != '\n')
-			i++;
-	}
+	}*/
+	while (is_separator(word[i]) == 0 && word[i] != '\0' &&
+	word[i] != '\n')
+		i++;
 	*param = ft_strsub(word, 0, i);
 	return (i);
 }

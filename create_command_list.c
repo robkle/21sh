@@ -10,39 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/minishell.h"
-
-void		get_index(char *token, int *ctrl_op)
-{
-	int		i;
-	char	types[7][3] = {"|", "||", "|&", "&", "&&", ";", "\n"};
-
-	i = 0;
-	while (i < 7)
-	{
-		if (ft_strcmp(types[i], token) == 0)
-			*ctrl_op |= 1 << i;
-		i++;
-	}
-}
-
-int			count_words(t_token *tokens)
-{
-	int		count;
-	t_token *tmp;
-
-	count = 0;
-	tmp = tokens;
-	while (tmp != NULL)
-	{
-		if (tmp->type == REDIR)
-			tmp = tmp->next;
-		else if (tmp->type == WORD)
-			count++;
-		tmp = tmp->next;
-	}
-	return (count);
-}
+#include "./includes/21sh.h"
 
 void		set_argv(t_command *command, t_token *tokens, int argc)
 {
@@ -78,16 +46,18 @@ void		set_struct(t_command *command)
 
 void		copy_tokens(t_command *command, t_token **tok_ls)
 {
-	while ((*tok_ls)->type != OPERATOR)
+	while ((*tok_ls) != NULL && (*tok_ls)->type != OPERATOR)
 	{
 		add_token(&command->tokens, (*tok_ls)->type, (*tok_ls)->token,
 		(*tok_ls)->flags);
 		(*tok_ls) = (*tok_ls)->next;
 	}
-	add_token(&command->tokens, (*tok_ls)->type, (*tok_ls)->token,
-	(*tok_ls)->flags);
-	if ((*tok_ls)->type == OPERATOR)
+	if ((*tok_ls) != NULL && (*tok_ls)->type == OPERATOR)
+	{
+		add_token(&command->tokens, (*tok_ls)->type, (*tok_ls)->token,
+		(*tok_ls)->flags);
 		get_index((*tok_ls)->token, &command->ctrl_op);
+	}
 }
 
 t_command	*fill_command_struct(t_command *command,
@@ -103,22 +73,6 @@ t_token **tok_ls, char **env)
 	return (command);
 }
 
-int			count_ctrl_op(t_token *tokens)
-{
-	t_token *tmp;
-	int		count;
-
-	count = 0;
-	tmp = tokens;
-	while (tmp != NULL)
-	{
-		if (tmp->type == OPERATOR)
-			count++;
-		tmp = tmp->next;
-	}
-	return (count);
-}
-
 t_command	**create_command_list(t_token **tokens, char **env)
 {
 	t_token		*tmp;
@@ -126,7 +80,6 @@ t_command	**create_command_list(t_token **tokens, char **env)
 	int			comm_nbr;
 	int			i;
 
-	print_token(*tokens); // ta bort
 	tmp = *tokens;
 	comm_nbr = count_ctrl_op(*tokens);
 	i = 0;

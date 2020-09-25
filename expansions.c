@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/minishell.h"
+#include "./includes/21sh.h"
 
 void	remove_token(t_token **head, t_token *rem)
 {
@@ -63,6 +63,8 @@ void	token_expansion(t_token **head, char **env)
 	{
 		if (tmp->type == WORD)
 		{
+			// if tmp->prev != NULL && tmp->prev->token != <<
+			//{}
 			if (tmp->token[0] == '~')
 				tmp->token = tilde_expansion(tmp->token, env);
 			if (ft_strcmp((tmp->token =

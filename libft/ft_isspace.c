@@ -17,4 +17,3 @@ int	ft_isspace(int c)
 	else
 		return (0);
 }
-

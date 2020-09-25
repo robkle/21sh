@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/minishell.h"
+#include "./includes/21sh.h"
 
 int		get_quote_index(char *token, int flags)
 {
@@ -114,6 +114,8 @@ void	remove_quoting(t_token **head)
 		{
 			i = 0;
 			remove_esc(&tmp);
+			// if tmp->prev != NULL && tmp->prev->token != <<
+			//{}
 			while (tmp->token[i] != '\0')
 			{
 				if (tmp->token[i] == '\\')
