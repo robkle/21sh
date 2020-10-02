@@ -6,7 +6,7 @@
 /*   By: rklein <rklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 11:01:28 by rklein            #+#    #+#             */
-/*   Updated: 2020/09/25 16:44:14 by rklein           ###   ########.fr       */
+/*   Updated: 2020/10/02 15:47:19 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*ft_hd_free(t_sh *sh)
 {
 	char	*str;
 
-	str = ft_memalloc(ft_strlen(sh->in->input) + 1);
+	str = ft_memalloc(ft_strlen(sh->in->input) + 2);
 	str[0] = '\n';
 	ft_strcat(str, sh->in->input);
 	free(sh->in->prompt);
