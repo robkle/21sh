@@ -6,7 +6,7 @@
 /*   By: vgrankul <vgrankul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 12:35:43 by rklein            #+#    #+#             */
-/*   Updated: 2020/09/25 15:26:15 by rklein           ###   ########.fr       */
+/*   Updated: 2020/09/25 15:15:23 by rklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,7 @@
 # include <termios.h>
 # include <ctype.h>
 # include <sys/ioctl.h>
-# include <limits.h>
 # include "../libft/libft.h"
-
-# include <limits.h>
-
 # include <signal.h>
 # include <dirent.h>
 # include <fcntl.h>

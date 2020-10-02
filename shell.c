@@ -1,35 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vgrankul <vgrankul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 11:28:19 by vgrankul          #+#    #+#             */
-/*   Updated: 2020/09/16 15:19:25 by vgrankul         ###   ########.fr       */
+/*   Updated: 2020/09/16 15:16:17 by vgrankul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/shell.h"
+#include "./includes/shell.h"
+#include "./includes/sh.h"
 
-int	ft_exit(t_command *command, t_command **commands, char ***env, int status)
+void	destroy_arr(char **arr)
 {
-	int exit_code;
+	int i;
 
-	exit_code = command->argv[1] != NULL ? ft_atoi(command->argv[1]) : status;
-	if (command->argc > 2)
-		ft_printf("%s: too many arguments\n", command->argv[0]);
-	else if (command->argc < 2)
+	i = 0;
+	while (arr[i] != NULL)
 	{
-		destroy_command(commands);
-		destroy_arr(*env);
-		exit(status);
+		free(arr[i]);
+		i++;
 	}
-	else
-	{
-		destroy_command(commands);
-		destroy_arr(*env);
-		exit(exit_code);
-	}
-	return (0);
+	free(arr);
+}
+
+int		main(void)
+{
+	extern char	**environ;
+	char		**env;
+	int			status;
+	t_sh		*sh;
+
+	status = 0;
+	env = copy_env(environ);
+	sh = (t_sh*)malloc(sizeof(t_sh));
+	sh->in = (t_in*)malloc(sizeof(t_in));
+	ft_validate_term();
+	tcgetattr(STDIN_FILENO, &sh->orig);
+	status = ft_sh(sh, &env);
+	destroy_arr(env);
+	return (status);
 }
