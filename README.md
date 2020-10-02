@@ -1,5 +1,5 @@
 # 21sh
-Taking [minishell](https://github.com/robkle/minishell) to the next level.<br />
+Taking [minishell](https://github.com/robkle/minishell) to the next level.<br /><br />
 **21sh** is a Unix shell with:<br />
 * line edition features<br />
 * ctrl+D and ctrl+C handling<br />
